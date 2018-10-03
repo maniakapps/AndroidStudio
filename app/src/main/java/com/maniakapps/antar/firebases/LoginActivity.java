@@ -41,17 +41,13 @@ import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
-import com.google.firebase.database.ChildEventListener;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 
 public class LoginActivity extends AppCompatActivity {
     public EditText loginEmailId, logInpasswd;
     Button btnLogIn;
     TextView signup;
+    private final String admin = "admin@root.com";
     ProfileTracker fbProfileTracker;
     private SignInButton btnGoogle;
     private static final int RC_SIGN_IN = 1;
@@ -65,9 +61,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
@@ -88,9 +81,9 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mAuth = FirebaseAuth.getInstance();
         Profile profile = Profile.getCurrentProfile();
-        if (profile != null) {
-            Log.v(TAG, "Logged, user name=" + profile.getFirstName() + " " + profile.getLastName());
-            startActivity(new Intent(LoginActivity.this,UserActivity.class));
+        if (profile != null && mAuth.getCurrentUser().getEmail().equals(admin)) {
+            Log.v(TAG, "Usuario con google=" + profile.getFirstName() + " " + profile.getLastName());
+            startActivity(new Intent(LoginActivity.this,DietasAdmin.class));
             finish();
         }
 
@@ -100,9 +93,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
+                if (user != null && mAuth.getCurrentUser().getEmail().equals(admin)) {
                     Toast.makeText(LoginActivity.this, "Usuario logueado", Toast.LENGTH_SHORT).show();
-                    Intent I = new Intent(LoginActivity.this, UserActivity.class);
+                    Intent I = new Intent(LoginActivity.this, DietasAdmin.class);
                     startActivity(I);
                 } else {
                     Toast.makeText(LoginActivity.this, "Inicia sesión para entrar", Toast.LENGTH_SHORT).show();
@@ -119,7 +112,7 @@ public class LoginActivity extends AppCompatActivity {
         btnLogIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String userEmail = loginEmailId.getText().toString();
+                final String userEmail = loginEmailId.getText().toString();
                 String userPaswd = logInpasswd.getText().toString();
                 if (userEmail.isEmpty()) {
                     loginEmailId.setError("Introduce un correo electronico");
@@ -133,12 +126,20 @@ public class LoginActivity extends AppCompatActivity {
                     firebaseAuth.signInWithEmailAndPassword(userEmail, userPaswd).addOnCompleteListener(LoginActivity.this, new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (!task.isSuccessful()) {
+
                                 Toast.makeText(LoginActivity.this, "No se pudo iniciar sesion", Toast.LENGTH_SHORT).show();
                             } else {
+                                if(user.getEmail().equals(admin)) {
+                                    startActivity(new Intent(LoginActivity.this, DietasAdmin.class));
+                                    finish();
+                                }
+                                else{
+                                    startActivity(new Intent(LoginActivity.this, DietasUsuario.class));
+                                    finish();
+                                }
 
-                                startActivity(new Intent(LoginActivity.this, DietasUsuario.class));
-                                finish();
                             }
                         }
                     });
@@ -155,7 +156,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                startActivity(new Intent(LoginActivity.this,UserActivity.class));
+                startActivity(new Intent(LoginActivity.this,DietasUsuario.class));
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 finish();
             }
@@ -236,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG,
                                             "signInWithCredential:success");
-                                    startActivity(new Intent(LoginActivity.this, UserActivity.class));
+                                    startActivity(new Intent(LoginActivity.this, DietasUsuario.class));
                                     finish();
                                 } else {
                                     Log.w(TAG,

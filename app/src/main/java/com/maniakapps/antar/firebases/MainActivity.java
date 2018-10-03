@@ -14,13 +14,14 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity {
     public EditText emailId, passwd;
     Button btnSignUp;
     TextView signIn;
     FirebaseAuth firebaseAuth;
-
+    private final String admin = "admin@root.com";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,13 +48,15 @@ public class MainActivity extends AppCompatActivity {
                     firebaseAuth.createUserWithEmailAndPassword(emailID, paswd).addOnCompleteListener(MainActivity.this, new OnCompleteListener() {
                         @Override
                         public void onComplete(@NonNull Task task) {
-
+                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
                             if (!task.isSuccessful()) {
                                 Toast.makeText(MainActivity.this.getApplicationContext(),
                                         "SignUp unsuccessful: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
-                                startActivity(new Intent(MainActivity.this, UserActivity.class));
+                                if(user.getEmail().equals(admin)) {
+                                    startActivity(new Intent(MainActivity.this, DietasUsuario.class));
+                                }
                             }
                         }
                     });

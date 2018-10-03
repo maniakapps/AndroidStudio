@@ -12,3 +12,4 @@ no que ya men
 
 No te mames `pero agregale algo perro`
 meyase pues joe de la verga
+seas pendeje

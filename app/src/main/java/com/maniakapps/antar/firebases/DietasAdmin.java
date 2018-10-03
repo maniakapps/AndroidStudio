@@ -58,6 +58,7 @@ public class DietasAdmin extends AppCompatActivity {
         setContentView(R.layout.activity_dietas_admin);
         ButterKnife.bind(this);
         mDatabase = FirebaseDatabase.getInstance().getReference("dietas");
+
         getDatas();
 
     }
