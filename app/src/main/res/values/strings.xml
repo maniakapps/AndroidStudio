@@ -20,4 +20,13 @@
     <string name="dietas">Dietas</string>
     <string name="eliminar">Eliminar</string>
     <string name="salir">Salir</string>
+    <string name="txtCalorias">Calorias</string>
+    <string name="txtCantidad">Cantidad</string>
+    <string name="txtRegistro">Registrar</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="txtDieta">Dieta</string>
+    <string name="txtFinish">Salir</string>
+    <string name="ver_mi_registro">Ver mi registro</string>
 </resources>
