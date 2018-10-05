@@ -231,12 +231,9 @@ public class LoginActivity extends AppCompatActivity {
             }
         }
     }
-    private void firebaseAuthWithGoogle(GoogleSignInAccount
-                                                account) {
-        Log.d(TAG, "firebaseAuthWithGoogle:" +
-                account.getId());
-        AuthCredential credential =
-                GoogleAuthProvider.getCredential(account.getIdToken(), null);
+    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
+        Log.d(TAG, "firebaseAuthWithGoogle:" + account.getId());
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
         firebaseAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new
                         OnCompleteListener<AuthResult>() {
@@ -288,6 +285,9 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         };
+    }
+    public void displayToast(String texto){
+                Toast.makeText(getApplicationContext(),texto,Toast.LENGTH_LONG).show();
     }
 
 }
