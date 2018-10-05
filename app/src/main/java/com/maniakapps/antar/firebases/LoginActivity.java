@@ -79,9 +79,9 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mAuth = FirebaseAuth.getInstance();
         Profile profile = Profile.getCurrentProfile();
-        if (profile != null && Objects.equals(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail(), admin)) {
+        if (profile != null) {
             Log.v(TAG, "Usuario con google=" + profile.getFirstName() + " " + profile.getLastName());
-            startActivity(new Intent(LoginActivity.this,DietasAdmin.class));
+            startActivity(new Intent(LoginActivity.this,DietasUsuario.class));
             finish();
         }
 

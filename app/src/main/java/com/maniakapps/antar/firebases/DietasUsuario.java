@@ -9,8 +9,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,17 +22,18 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class DietasUsuario extends AppCompatActivity {
     @BindView(R.id.listViewUser)
@@ -39,15 +42,23 @@ public class DietasUsuario extends AppCompatActivity {
     private ArrayList<String> listTextos;
     ArrayAdapter<String> adapter;
     String options;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_usuario);
         ButterKnife.bind(this);
+        Toolbar toolbar = findViewById(R.id.toolbarUsuario);
+        setSupportActionBar(toolbar);
         getDatas();
 
     }
-
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return true;
+    }
     public void getDatas() {
         FirebaseDatabase database;
         DatabaseReference ref;
@@ -99,13 +110,13 @@ public class DietasUsuario extends AppCompatActivity {
 
     }
 
-    public void onBackPressed(){
-        startActivity(new Intent(this,DietasAdmin.class));
-    }
-    private void displayToast(String a){
-        Toast.makeText(getApplicationContext(),a,Toast.LENGTH_LONG).show();
+    public void onBackPressed() {
+        startActivity(new Intent(this, DietasUsuario.class));
     }
 
+    private void displayToast(String a) {
+        Toast.makeText(getApplicationContext(), a, Toast.LENGTH_LONG).show();
+    }
 
 
     public void openDialog(String green) {
@@ -130,13 +141,13 @@ public class DietasUsuario extends AppCompatActivity {
 
         // Set Button
         // you can more buttons
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,"Lo tengo!", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Lo tengo!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Perform Action on Button
             }
         });
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Volver", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Volver", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Perform Action on Button
             }
@@ -158,5 +169,22 @@ public class DietasUsuario extends AppCompatActivity {
         negBtnLP.gravity = Gravity.FILL_HORIZONTAL;
         cancelBT.setTextColor(Color.RED);
         cancelBT.setLayoutParams(negBtnLP);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.salir) {
+            logout();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+    private void logout() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(DietasUsuario.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }
