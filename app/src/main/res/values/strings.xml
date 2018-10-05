@@ -20,4 +20,8 @@
     <string name="dietas">Dietas</string>
     <string name="eliminar">Eliminar</string>
     <string name="salir">Salir</string>
+    <string name="canidad">canidad</string>
+    <string name="guardar">Guardar</string>
+    <string name="ma_ana">Mañana</string>
+    <string name="manana">Mañana</string>
 </resources>

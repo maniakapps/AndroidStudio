@@ -1,0 +1,20 @@
+<tabs>
+
+    <tab
+        id="@+id/tab_maniana"
+        icon=""
+        title="Depositar"
+        barColoWhenSelected="@color/colorPrimary"/>
+
+    <tab
+        id="@+id/tab_tarde"
+        icon=""
+        title="Retirar"
+        barColoWhenSelected="@color/colorPrimary"/>
+    <tab
+        id="@+id/tab_noche"
+        icon=""
+        title="Meta"
+        barColoWhenSelected="@color/colorPrimary"/>
+
+</tabs>
