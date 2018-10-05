@@ -18,4 +18,6 @@
     <string name="enviar_dieta">Enviar dieta</string>
     <string name="ver_dietas">Ver dietas</string>
     <string name="dietas">Dietas</string>
+    <string name="eliminar">Eliminar</string>
+    <string name="salir">Salir</string>
 </resources>

@@ -11,6 +11,7 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,6 +22,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -44,6 +46,12 @@ public class DietasAdmin extends AppCompatActivity {
     Button btnDietas;
     @BindView(R.id.listViewUser)
     ListView listViewUser;
+    @BindView(R.id.btnEliminar)
+    Button btnEliminar;
+    @BindView(R.id.btnSalir)
+    Button btnSalir;
+
+
     private ArrayList<String> list;
     private ArrayList<String> listTextos;
     ArrayAdapter<String> adapter;
@@ -55,7 +63,9 @@ public class DietasAdmin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_dietas_admin);
+
         ButterKnife.bind(this);
         mDatabase = FirebaseDatabase.getInstance().getReference("dietas");
 
@@ -68,10 +78,10 @@ public class DietasAdmin extends AppCompatActivity {
         try {
             titulo = edtTitulo.getText().toString().trim();
             texto = edtTexto.getText().toString().trim();
-            if(!TextUtils.isEmpty(titulo) && !TextUtils.isEmpty(texto)){
-            writeNewUser(titulo, texto);
-            mostrarToast("Se ha enviado a la base!");}
-            else{
+            if (!TextUtils.isEmpty(titulo) && !TextUtils.isEmpty(texto)) {
+                writeNewUser(titulo, texto);
+                mostrarToast("Se ha enviado a la base!");
+            } else {
                 mostrarToast("No se pudo guardar la dieta porque ocurrio un error inesperado");
             }
         } catch (Exception e) {
@@ -79,7 +89,6 @@ public class DietasAdmin extends AppCompatActivity {
         }
 
     }
-
 
 
     private void writeNewUser(String titulo, String texto) {
@@ -99,9 +108,10 @@ public class DietasAdmin extends AppCompatActivity {
 
     @OnClick(R.id.btnDietas)
     public void onViewClicked() {
-        startActivity(new Intent(this,DietasUsuario.class));
+        startActivity(new Intent(this, DietasUsuario.class));
         finish();
     }
+
     public void getDatas() {
         FirebaseDatabase database;
         DatabaseReference ref;
@@ -154,12 +164,14 @@ public class DietasAdmin extends AppCompatActivity {
 
     }
 
-    public void onBackPressed(){
-        startActivity(new Intent(this,DietasAdmin.class));
+    public void onBackPressed() {
+        startActivity(new Intent(this, DietasAdmin.class));
     }
-    private void displayToast(String a){
-        Toast.makeText(getApplicationContext(),a,Toast.LENGTH_LONG).show();
+
+    private void displayToast(String a) {
+        Toast.makeText(getApplicationContext(), a, Toast.LENGTH_LONG).show();
     }
+
     public void openDialog(String green) {
         AlertDialog alertDialog = new AlertDialog.Builder(this).create();
         // Set Custom Title
@@ -182,13 +194,13 @@ public class DietasAdmin extends AppCompatActivity {
 
         // Set Button
         // you can more buttons
-        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL,"Lo tengo!", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEUTRAL, "Lo tengo!", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Perform Action on Button
             }
         });
 
-        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE,"Volver", new DialogInterface.OnClickListener() {
+        alertDialog.setButton(AlertDialog.BUTTON_NEGATIVE, "Volver", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
                 // Perform Action on Button
             }
@@ -210,5 +222,14 @@ public class DietasAdmin extends AppCompatActivity {
         negBtnLP.gravity = Gravity.FILL_HORIZONTAL;
         cancelBT.setTextColor(Color.RED);
         cancelBT.setLayoutParams(negBtnLP);
+    }
+
+
+
+    @OnClick(R.id.btnSalir)
+    public void onViewClicked3() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
     }
 }

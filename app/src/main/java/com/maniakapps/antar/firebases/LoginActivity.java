@@ -1,5 +1,7 @@
 package com.maniakapps.antar.firebases;
 
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -30,9 +32,11 @@ import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -42,6 +46,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 
+import java.util.Objects;
+
 
 public class LoginActivity extends AppCompatActivity {
     public EditText loginEmailId, logInpasswd;
@@ -49,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
     TextView signup;
     private final String admin = "admin@root.com";
     ProfileTracker fbProfileTracker;
-    private SignInButton btnGoogle;
     private static final int RC_SIGN_IN = 1;
     private GoogleApiClient mGoogleApiClient;
     private final String TAG="LoginActivity";
@@ -58,6 +63,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     CallbackManager callbackManager;
 
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,14 +72,12 @@ public class LoginActivity extends AppCompatActivity {
         AppEventsLogger.activateApp(this);
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
-        loginEmailId = findViewById(R.id.loginEmail);
+
+                loginEmailId = findViewById(R.id.loginEmail);
         logInpasswd = findViewById(R.id.loginpaswd);
         btnLogIn = findViewById(R.id.btnLogIn);
         signup = findViewById(R.id.TVSignIn);
-        btnGoogle = findViewById(R.id.btnGoogle);
-
-
-
+        SignInButton btnGoogle = findViewById(R.id.btnGoogle);
         GoogleSignInOptions gso = new
                 GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -81,7 +85,7 @@ public class LoginActivity extends AppCompatActivity {
                 .build();
         mAuth = FirebaseAuth.getInstance();
         Profile profile = Profile.getCurrentProfile();
-        if (profile != null && mAuth.getCurrentUser().getEmail().equals(admin)) {
+        if (profile != null && Objects.equals(Objects.requireNonNull(mAuth.getCurrentUser()).getEmail(), admin)) {
             Log.v(TAG, "Usuario con google=" + profile.getFirstName() + " " + profile.getLastName());
             startActivity(new Intent(LoginActivity.this,DietasAdmin.class));
             finish();
@@ -93,7 +97,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null && mAuth.getCurrentUser().getEmail().equals(admin)) {
+                if (user != null && Objects.equals(mAuth.getCurrentUser().getEmail(), admin)) {
                     Toast.makeText(LoginActivity.this, "Usuario logueado", Toast.LENGTH_SHORT).show();
                     Intent I = new Intent(LoginActivity.this, DietasAdmin.class);
                     startActivity(I);
@@ -196,6 +200,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
+            startActivity(new Intent(LoginActivity.this,DietasUsuario.class));
+            finish();
+        } else {
+        }
         mAuth.addAuthStateListener(authStateListener);
 
     }
