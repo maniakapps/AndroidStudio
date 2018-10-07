@@ -1,22 +1,20 @@
 package com.maniakapps.antar.firebases;
 
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import butterknife.OnClick;
+import butterknife.Unbinder;
 
 
 /**
@@ -24,94 +22,93 @@ import android.widget.Toast;
  */
 public class maniana extends Fragment {
     TextView txtcalorias;
-
-
-
+    int calorias;
+    Spinner spin;
     EditText edtcantidad;
     Button btnguardar;
-    FloatingActionButton fab;
+    Unbinder unbinder;
     View view;
+
+
     public maniana() {
         // Required empty public constructor
     }
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void ingresarCalorias() {
+        SharedPreferences pref = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
 
-    }
-
-    @Override
-    public View onCreateView(final LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        view = inflater.inflate(R.layout.maniana_fragment, container, false);
-
-        edtcantidad = view.findViewById(R.id.edtcantidad);
-        btnguardar = view.findViewById(R.id.btnGuardar);
-        txtcalorias = view.findViewById(R.id.txtcalorias);
-
-
-        btnguardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                showAlert();
-            }
-        });
-
-
-
-        mostrarcalorias();
-        // Inflate the layout for this fragment
-        return view;
-
-    }
-
-    public void mostrarcalorias(){
-        SharedPreferences pref = this.getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        String caloriass = pref.getString("calorias",null);
-        txtcalorias.setText(caloriass);
-
-    }
-
-    public void agregarCalorias(){
-
-        SharedPreferences pref = this.getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        int calorias = Integer.parseInt(pref.getString("calorias", null));
-        calorias = Integer.parseInt(edtcantidad.getText().toString().trim());
-        String salAux = ""+ (calorias + calorias);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("calorias", salAux);
-        editor.apply();
-        editor.commit();
-        Toast.makeText(getActivity(),"Se han agregado: " + calorias ,Toast.LENGTH_SHORT).show();
-        mostrarcalorias();
-    }
-
-    private void showAlert(){
-        if(TextUtils.isEmpty(edtcantidad.getText().toString().trim())){
-            Toast.makeText(getActivity(),"Ingrese cuantos platillos comera",Toast.LENGTH_SHORT).show();
+        if(TextUtils.isEmpty(edtcantidad.getText().toString().trim()))
+            return;
+        final int cantidad = Integer.parseInt(edtcantidad.getText().toString().trim());
+        if(cantidad==0){
+            Toast.makeText(getActivity(), "Ingrese una cantidad valida", Toast.LENGTH_LONG).show();
             return;
         }
-        int cuantascomes = Integer.parseInt(edtcantidad.getText().toString().trim());
-        new AlertDialog.Builder(getActivity())
+        spin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                switch (i){
+                    case 0:
+                        calorias = 0;
+                        break;
+                    case 1:
+                        calorias = 300*cantidad;
+                        break;
+                    case 2:
+                        calorias = 100*cantidad;
+                        break;
+                    case 3:
+                        calorias = 200*cantidad;
+                        break;
+                }
+            }
 
-                .setTitle("Agregar platillo ")
-                .setMessage("'Estás seguro de comer "+cuantascomes+"?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        agregarCalorias();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
 
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
+            }
+        });
+        int caloriasActuales = pref.getInt("caloria",0);
+        caloriasActuales+=calorias;
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putInt("caloria",caloriasActuales);
+        editor.apply();
+        editor.commit();
+
+        Toast.makeText(getActivity(), "Se ha ingresado: " +calorias, Toast.LENGTH_LONG).show();
+        mostrarCalorias();
     }
+
+    public void mostrarCalorias(){
+        SharedPreferences pref = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+
+        String caloria = ""+ pref.getInt("caloria", 0);
+        txtcalorias.setText(caloria);
+    }
+
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mostrarCalorias();
+    }
+
+    @OnClick({R.id.txtcalorias, R.id.btnGuardar})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.txtcalorias:
+                break;
+            case R.id.btnGuardar:
+                ingresarCalorias();
+                break;
+        }
+    }
+
 }

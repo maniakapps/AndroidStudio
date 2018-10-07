@@ -21,18 +21,13 @@
                 android:layout_marginTop="20dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/manana"
+                android:hint="@string/almuerzo"
                 android:textStyle="bold"
                 android:textColor="@android:color/holo_blue_dark"
 
                 />
 
-            <ListView
-                android:id="@+id/listViewUser"
-                android:layout_width="match_parent"
-                android:layout_height="90dp">
 
-            </ListView>
             <EditText
                 android:id="@+id/edtcantidad"
                 android:layout_width="match_parent"

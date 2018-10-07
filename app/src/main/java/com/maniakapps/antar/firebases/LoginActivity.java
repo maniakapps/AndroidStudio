@@ -57,8 +57,8 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth.AuthStateListener authStateListener;
     CallbackManager callbackManager;
 
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-            @Override
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         firebaseAuth = FirebaseAuth.getInstance();
 
-                loginEmailId = findViewById(R.id.loginEmail);
+        loginEmailId = findViewById(R.id.loginEmail);
         logInpasswd = findViewById(R.id.loginpaswd);
         btnLogIn = findViewById(R.id.btnLogIn);
         signup = findViewById(R.id.TVSignIn);
@@ -81,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
         Profile profile = Profile.getCurrentProfile();
         if (profile != null) {
             Log.v(TAG, "Usuario con google=" + profile.getFirstName() + " " + profile.getLastName());
-            startActivity(new Intent(LoginActivity.this,DietasUsuario.class));
+            startActivity(new Intent(LoginActivity.this,Menu_Activity.class));
             finish();
         }
 
@@ -154,7 +154,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                startActivity(new Intent(LoginActivity.this,DietasUsuario.class));
+                startActivity(new Intent(LoginActivity.this,Menu_Activity.class));
                 handleFacebookAccessToken(loginResult.getAccessToken());
                 finish();
             }
@@ -181,12 +181,12 @@ public class LoginActivity extends AppCompatActivity {
         mGoogleApiClient = new
                 GoogleApiClient.Builder(getApplicationContext())
                 .enableAutoManage(this, new GoogleApiClient.OnConnectionFailedListener() {
-                            @Override
-                            public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
-                                Toast.makeText(LoginActivity.this,
-                                        "Error al conectar con google", Toast.LENGTH_SHORT).show();
-                            }
-                        }).addApi(Auth.GOOGLE_SIGN_IN_API,
+                    @Override
+                    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+                        Toast.makeText(LoginActivity.this,
+                                "Error al conectar con google", Toast.LENGTH_SHORT).show();
+                    }
+                }).addApi(Auth.GOOGLE_SIGN_IN_API,
                         gso).build();
     }
 
@@ -195,7 +195,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         if (mGoogleApiClient != null && mGoogleApiClient.isConnected()) {
-            startActivity(new Intent(LoginActivity.this,DietasUsuario.class));
+            startActivity(new Intent(LoginActivity.this,Menu_Activity.class));
             finish();
         } else {
         }
@@ -237,7 +237,7 @@ public class LoginActivity extends AppCompatActivity {
                                 if (task.isSuccessful()) {
                                     Log.d(TAG,
                                             "signInWithCredential:success");
-                                    startActivity(new Intent(LoginActivity.this, DietasUsuario.class));
+                                    startActivity(new Intent(LoginActivity.this, Menu_Activity.class));
                                     finish();
                                 } else {
                                     Log.w(TAG,
@@ -281,8 +281,7 @@ public class LoginActivity extends AppCompatActivity {
         };
     }
     public void displayToast(String texto){
-                Toast.makeText(getApplicationContext(),texto,Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(),texto,Toast.LENGTH_LONG).show();
     }
 
 }
-

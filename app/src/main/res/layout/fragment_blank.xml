@@ -29,7 +29,7 @@
 
                 />
             <Spinner
-                android:id="@+id/spinner1"
+                android:id="@+id/spin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:entries="@array/dietasn"></Spinner>
@@ -49,7 +49,7 @@
                 android:hint="@string/canidad"
                 android:layout_marginBottom="@dimen/fab_margin"/>
             <Button
-                android:id="@+id/btnGuardarAqui"
+                android:id="@+id/btnGuardar"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/guardar"
@@ -60,7 +60,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/txtcalorias"
-               android:text="@string/app_name"
                 />
             <Button
                 android:layout_width="wrap_content"

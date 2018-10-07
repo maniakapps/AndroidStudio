@@ -21,18 +21,20 @@
             android:layout_marginTop="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/manana"
+            android:hint="@string/desayuno"
             android:textStyle="bold"
             android:textColor="@android:color/holo_blue_dark"
 
             />
 
-           <ListView
-               android:id="@+id/listViewUser"
+           <Spinner
                android:layout_width="match_parent"
-               android:layout_height="90dp">
+               android:layout_height="wrap_content"
+               android:id="@+id/spin1"
+               android:entries="@array/dietasm"
+               >
 
-           </ListView>
+           </Spinner>
             <EditText
                 android:id="@+id/edtcantidad"
                 android:layout_width="match_parent"
@@ -54,6 +56,35 @@
                 android:layout_height="wrap_content"
                 android:id="@+id/txtcalorias"
                 />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="bottom"
+            android:layout_gravity="bottom"
+            android:foregroundGravity="bottom">
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Ver lista completa de dietas"
+                android:id="@+id/btnlistdiet"
+
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="@string/cerrar_cesion"
+                android:id="@+id/btnsalir"
+
+                />
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/btnexport"
+                android:hint="Exportar"/>
+
 
         </LinearLayout>
     </ScrollView>

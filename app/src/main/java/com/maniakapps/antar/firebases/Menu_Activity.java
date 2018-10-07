@@ -23,21 +23,14 @@ public class Menu_Activity extends AppCompatActivity {
             public void onTabSelected(int tabId) {
                 switch (tabId){
 
-                    case R.id.tab_maniana:
-                        maniana manianaFragment = new maniana();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, manianaFragment)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack(null).commit();
-                        break;
-                    case R.id.tab_tarde:
-                        tarde tardeFragment = new tarde();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, tardeFragment)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack(null).commit();
-                        break;
                     case R.id.tab_noche:
-                        noche nocheFragment = new noche();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container, nocheFragment)
+                        BlankFragment blankFragment = new BlankFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container, blankFragment)
                                 .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).addToBackStack(null).commit();
                         break;
+
+
+
 
 
                 }

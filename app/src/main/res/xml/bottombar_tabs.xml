@@ -3,18 +3,18 @@
     <tab
         id="@+id/tab_maniana"
         icon=""
-        title="Depositar"
+        title="@string/desayuno"
         barColoWhenSelected="@color/colorPrimary"/>
 
     <tab
         id="@+id/tab_tarde"
         icon=""
-        title="Retirar"
+        title="@string/almuerzo"
         barColoWhenSelected="@color/colorPrimary"/>
     <tab
         id="@+id/tab_noche"
         icon=""
-        title="Meta"
+        title="@string/cena"
         barColoWhenSelected="@color/colorPrimary"/>
 
 </tabs>

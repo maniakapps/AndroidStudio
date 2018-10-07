@@ -24,4 +24,40 @@
     <string name="guardar">Guardar</string>
     <string name="ma_ana">Mañana</string>
     <string name="manana">Mañana</string>
+    <string name="noche">Noche</string>
+    <string name="almuerzo">Almuerzo</string>
+    <string name="cena">Cena</string>
+    <string name="desayuno">Desayuno</string>
+    <string name="cerrar_cesion">Cerrar cesion</string>
+    <string name="exportar">Exportar</string>
+    <string-array name="dietasm">
+        <item>huevo ytocino</item>
+        <item>fruta</item>
+        <item>carne de res</item>
+        <item>pizza</item>
+        <item>guacamole</item>
+    </string-array>
+    <string-array name="dietast">
+        <item>maruchan</item>
+        <item>ramen</item>
+        <item>carne de res</item>
+        <item>cesina</item>
+        <item>pechuga</item>
+    </string-array>
+    <string-array name="dietasn">
+        <item>bisteck</item>
+        <item>fruta</item>
+        <item>ensalada de res</item>
+        <item>pizza</item>
+        <item>caguamas</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="hola">Hola</string>
+    <string name="leer_memoria_interna">Leer Memoria interna</string>
+    <string name="escribir_memoria_interna">Escribir memoria interna</string>
+    <string name="leer_sd">Leer SD</string>
+    <string name="escribir_sd">Escribir SD</string>
+    <string name="leer_del_programa">Leer del programa</string>
 </resources>
