@@ -1,3 +1,4 @@
 - Para que funcione correctamente hay que crear un usuario nuevo, ya que el manejo de sesiones impide el correcto manejo del shared preferences
 - El boton de generar el archivo no sirve solo borra las preferencias pero el codigo da error en "leer memoria interna"
-- El cierre de sesión se encuentra en 
+- El cierre de sesión se encuentra en la sección "dietas"
+- el admin usado es "admin@root.com" password: 123456
