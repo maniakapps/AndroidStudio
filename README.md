@@ -1,15 +1,3 @@
-# ParaElLunes
-wewewewe
-Esta bien easy esta wea nachillo nadamas mportalo por vcs
-vamos a ver si esto cambia
-o no
-ya pude prro a huevo hhaha
-
-
-
-:c este es el nuevo
-no que ya men
-
-No te mames `pero agregale algo perro`
-meyase pues joe de la verga
-seas pendeje
+- Para que funcione correctamente hay que crear un usuario nuevo, ya que el manejo de sesiones impide el correcto manejo del shared preferences
+- El boton de generar el archivo no sirve solo borra las preferencias pero el codigo da error en "leer memoria interna"
+- El cierre de sesión se encuentra en 
