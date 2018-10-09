@@ -39,8 +39,7 @@
         <activity
             android:name=".DietasUsuario"
             android:label="@string/title_activity_usuario"
-            android:theme="@style/AppTheme"
-            />
+            android:theme="@style/AppTheme" />
         <activity android:name=".MainActivity" />
         <activity
             android:name=".SplashScreen"
@@ -51,9 +50,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-
         <activity android:name=".Menu_Activity" />
+        <activity android:name=".GenerarArchivoActivity"></activity>
     </application>
 
 </manifest>

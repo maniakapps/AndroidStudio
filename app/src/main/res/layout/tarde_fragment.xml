@@ -1,56 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".tarde"
-  >
+    android:orientation="vertical"
+    android:background="@color/colorAccent"
+    android:showDividers="middle"
+    tools:context=".tarde">
 
-    <!-- TODO: Update blank fragment layout -->
-    <ScrollView
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+
+        >
+        <TextView android:textColor="@android:color/white"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:text="Calorias actuales"
+            android:layout_weight="1"
+            android:textSize="23sp"
+            android:textStyle="bold"/>
 
+        <TextView android:textColor="@android:color/white"
+            android:id="@+id/saldo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:text="@string/saldo"
+            android:layout_weight="1"
+            android:textSize="23sp"
+            />
 
-            <TextView
+    </LinearLayout>
+    <ImageView android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        />
+    <TextView android:textColor="@android:color/white"
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="@string/cantidad"/>
 
-                android:layout_marginTop="20dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/almuerzo"
-                android:textStyle="bold"
-                android:textColor="@android:color/holo_blue_dark"
+    <EditText
+        android:id="@+id/cantidad_perro"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:inputType="number"
+        android:hint="@string/saldo"
+        android:textColor="@android:color/white"
+        tools:textColorHint="#ffff" />
+    <TextView android:textColor="@android:color/white"
 
-                />
+        android:layout_gravity="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="24sp"
+        android:text="Alimento"
+        />
+    <Spinner
+        android:backgroundTint="@android:color/white"
+        android:id="@+id/accion"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
+    <Button
+        android:layout_marginTop="25dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/btn_Aceptar"
+        android:text="@string/aceptar"/>
 
-
-            <EditText
-                android:id="@+id/edtcantidad"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="number"
-                android:textStyle="bold"
-                android:hint="@string/canidad"
-                android:layout_marginBottom="@dimen/fab_margin"/>
-            <Button
-                android:id="@+id/btnGuardar"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/guardar"
-                android:textStyle="italic"
-                android:layout_gravity="center"
-                android:layout_marginBottom="@dimen/fab_margin"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/txtcalorias"
-                />
-
-        </LinearLayout>
-    </ScrollView>
-
-</FrameLayout>
+    <Button
+        android:layout_marginTop="25dp"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:id="@+id/btnVerDietas"
+        android:text="@string/ver_dietas"/>
+</LinearLayout>

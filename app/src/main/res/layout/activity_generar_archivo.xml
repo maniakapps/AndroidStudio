@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvMensaje"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Hola"/>
+            <Button
+                android:id="@+id/btnLeerMemoriaInterna"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Leer Memoria interna"/>
+            <Button
+                android:id="@+id/btnEscribirMemoriaInterna"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Escribir memoria interna"/>
+
+            <Button
+                android:id="@+id/btnLeerSD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Leer SD"/>
+
+            <Button
+                android:id="@+id/btnEscribirSD"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Escribir SD"/>
+
+            <Button
+                android:id="@+id/btnLeerApp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Leer del programa"/>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</android.support.design.widget.CoordinatorLayout>

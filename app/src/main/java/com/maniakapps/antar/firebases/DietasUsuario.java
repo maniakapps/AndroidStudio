@@ -111,7 +111,7 @@ public class DietasUsuario extends AppCompatActivity {
     }
 
     public void onBackPressed() {
-        startActivity(new Intent(this, DietasUsuario.class));
+        startActivity(new Intent(this, Menu_Activity.class));
     }
 
     private void displayToast(String a) {

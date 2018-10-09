@@ -1,6 +1,7 @@
 package com.maniakapps.antar.firebases;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -31,6 +32,11 @@ public class MainActivity extends AppCompatActivity {
         passwd = findViewById(R.id.ETpassword);
         btnSignUp = findViewById(R.id.btnSignUp);
         signIn = findViewById(R.id.TVSignIn);
+        SharedPreferences sharedPref = getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("saldo", "0");
+        editor.apply();
+        editor.commit();
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -54,9 +60,8 @@ public class MainActivity extends AppCompatActivity {
                                         "SignUp unsuccessful: " + task.getException().getMessage(),
                                         Toast.LENGTH_SHORT).show();
                             } else {
-                                if(user.getEmail().equals(admin)) {
-                                    startActivity(new Intent(MainActivity.this, DietasUsuario.class));
-                                }
+                               startActivity(new Intent(MainActivity.this,LoginActivity.class));
+                               finish();
                             }
                         }
                     });
@@ -72,5 +77,6 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(I);
             }
         });
+
     }
 }

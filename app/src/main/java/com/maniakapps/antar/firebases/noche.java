@@ -1,8 +1,8 @@
 package com.maniakapps.antar.firebases;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -15,15 +15,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import butterknife.Unbinder;
+import static android.content.Context.MODE_PRIVATE;
 
 
 /**
@@ -32,103 +27,126 @@ import butterknife.Unbinder;
 public class noche extends Fragment {
     EditText cuanto;
     View view;
-    Button btn_aceptar;
-    TextView txtSaldo, txtNombre;
+    Button btn_aceptar,btn_dietas;
+    TextView txtSaldo;
     Spinner sp;
     Integer opcion;
-    @BindView(R.id.spinner1)
-    Spinner spinner1;
-    @BindView(R.id.listViewUser)
-    ListView listViewUser;
-    @BindView(R.id.edtcantidad)
-    EditText edtcantidad;
-    @BindView(R.id.btnGuardarAqui)
-    Button btnGuardarAqui;
-    @BindView(R.id.txtcalorias)
-    TextView txtcalorias;
-    @BindView(R.id.btnexp)
-    Button btnexp;
-    Unbinder unbinder;
-Integer calorias;
+    Integer calorias;
+    Button btn_genera;
     public noche() {
         // Required empty public constructor
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
-
+    public void setear(){
+        SharedPreferences sharedPref = this.getActivity().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("saldo", "0");
+        editor.apply();
+        editor.commit();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.noche_fragment, container, false);
-
-        String[] letra = {"Bisteck", "Papas"};
-        calorias = 0;
-        sp.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, letra));
-        nombre();
+        txtSaldo = view.findViewById(R.id.saldo);
+        cuanto = view.findViewById(R.id.cantidad_perro);
+        sp = view.findViewById(R.id.accion);
+        btn_aceptar = view.findViewById(R.id.btn_Aceptar);
+        btn_dietas = view.findViewById(R.id.btnVerDietas);
+        btn_genera = view.findViewById(R.id.btnGenerar);
+        btn_dietas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getContext(),DietasUsuario.class));
+            }
+        });
+        btn_genera.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                setear();
+            }
+        });
+        String[] array_noche = {"pasta","sopa", "leche y pan", "tacos dorados", "cafe y galletas"};
+        opcion = 0;
+        sp.setAdapter(new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_item, array_noche));
         saldo();
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 String item = adapterView.getItemAtPosition(i).toString();
-                if (item.equals("Bisteck")) {
-                    calorias = 390;
-                } else opcion = 0;
+                if(item.equals("pasta")){
+                    calorias = 300;
+                    opcion = 1;
+                }
+                else if(item.equals("sopa")){
+                    calorias = 200;
+                    opcion = 1;
+                }
+                else if(item.equals("leche y pan")){
+                    calorias = 500;
+                    opcion = 1;
+                }
+                else if(item.equals("tacos dorados")){
+                    calorias = 700;
+                    opcion = 1;
+                }
+                else if(item.equals("cafe y galletas")){
+                    calorias = 300;
+                    opcion = 1;
+                }
+                else opcion=0;
 
             }
 
             @Override
             public void onNothingSelected(AdapterView<?> adapterView) {
-                Toast t = Toast.makeText(getActivity(), "Debes seleccionar una accion", Toast.LENGTH_LONG);
+                Toast t = Toast.makeText(getActivity(),"Debes seleccionar una accion", Toast.LENGTH_LONG);
                 t.show();
             }
         });
+        btn_aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (opcion==1) showAlert();
 
-        unbinder = ButterKnife.bind(this, view);
+            }
+        });
         return view;
     }
-
     //Textos
-    public void nombre() {
-        SharedPreferences pref = this.getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        String nombre = pref.getString("users", null);
-        txtcalorias.setText(nombre);
+
+    public void saldo(){
+        SharedPreferences pref = this.getActivity().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
+        String saldo = pref.getString("saldo",null);
+        txtSaldo.setText(saldo);
     }
-
-    public void saldo() {
-        SharedPreferences pref = this.getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        String saldo = pref.getString("saldo", null);
-        txtcalorias.setText(saldo);
-    }
-
-
     //ModificarSaldos
-    public void agregarSaldo() {
-        SharedPreferences pref = this.getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+    public void agregarSaldo(){
+        SharedPreferences pref = this.getActivity().getSharedPreferences("MisPreferencias", MODE_PRIVATE);
         int saldo = Integer.parseInt(pref.getString("saldo", null));
-        int saldoAgregado = Integer.parseInt(cuanto.getText().toString().trim());
-        String salAux = "" + (saldo + saldoAgregado);
+        int saldoAgregado = Integer.parseInt(cuanto.getText().toString().trim())*calorias;
+        String salAux = ""+ (saldo + saldoAgregado);
         SharedPreferences.Editor editor = pref.edit();
         editor.putString("saldo", salAux);
         editor.apply();
         editor.commit();
-        Toast.makeText(getActivity(), "Se han ingresado: " + saldoAgregado + " de saldo", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(),"Se han ingresado: " + saldoAgregado + " calorias",Toast.LENGTH_SHORT).show();
         saldo();
     }
-
-    private void showAlert() {
-        String n = cuanto.getText().toString();
-        if (TextUtils.isEmpty(cuanto.getText().toString().trim())) {
-            Toast.makeText(getActivity(), "Ingrese la cantidad a depositar", Toast.LENGTH_SHORT).show();
+    private void showAlert(){
+        Integer n = Integer.parseInt(cuanto.getText().toString())*calorias;
+        if(TextUtils.isEmpty(cuanto.getText().toString().trim())){
+            Toast.makeText(getActivity(),"Ingrese la cantidad a ingresar",Toast.LENGTH_SHORT).show();
             return;
         }
         new AlertDialog.Builder(getActivity())
                 .setTitle("Ingresar Saldo")
-                .setMessage("¿Estás seguro de ingresar " + n + "?")
+                .setMessage("¿Estás seguro de ingresar " + n+"?")
                 .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
@@ -146,62 +164,10 @@ Integer calorias;
     }
 
 
-    public void retirarSaldo() {
-        SharedPreferences pref = this.getActivity().getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
-        int saldoActual = Integer.parseInt(pref.getString("saldo", null));
-        int saldoDisminuido = Integer.parseInt(cuanto.getText().toString().trim());
-        if (saldoActual < saldoDisminuido) {
-            Toast.makeText(getActivity(), "El saldo a retirar es mayor que el actual", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        String salAux = "" + (saldoActual - saldoDisminuido);
-        SharedPreferences.Editor editor = pref.edit();
-        editor.putString("saldo", salAux);
-        editor.apply();
-        editor.commit();
-        Toast.makeText(getActivity(), "Se han retirado: " + saldoDisminuido + "de saldo", Toast.LENGTH_SHORT).show();
-        saldo();
+    public void onBackPressed() {
+        startActivity(new Intent(getContext(), Menu_Activity.class));
     }
 
-    private void alertaRetirar() {
-        String n = cuanto.getText().toString();
-        if (TextUtils.isEmpty(cuanto.getText().toString().trim())) {
-            Toast.makeText(getActivity(), "Ingrese la cantidad a retirar", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        new AlertDialog.Builder(getActivity())
-                .setTitle("Retirar Saldo")
-                .setMessage("¿Estás seguro de retirar " + n + "?")
-                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        retirarSaldo();
-                    }
-                })
-                .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
 
-                    }
-                })
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-    }
 
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        unbinder.unbind();
-    }
-
-    @OnClick({R.id.btnGuardarAqui, R.id.btnexp})
-    public void onViewClicked(View view) {
-        switch (view.getId()) {
-            case R.id.btnGuardarAqui:
-                Toast.makeText(getContext(),"Hola",Toast.LENGTH_LONG).show();
-                break;
-            case R.id.btnexp:
-                break;
-        }
-    }
 }

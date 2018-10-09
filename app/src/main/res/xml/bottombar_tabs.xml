@@ -9,7 +9,7 @@
     <tab
         id="@+id/tab_tarde"
         icon=""
-        title="@string/almuerzo"
+        title="Comida"
         barColoWhenSelected="@color/colorPrimary"/>
     <tab
         id="@+id/tab_noche"
